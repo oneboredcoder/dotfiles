@@ -23,7 +23,6 @@ nmap k gk                           " move vertically by visual line
 "===============================================================================
 syntax enable                       " enable syntax coloring
 filetype plugin indent  on
-colorscheme badwolf
 
 "===============================================================================
 " => TAB settings
