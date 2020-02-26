@@ -7,11 +7,11 @@ highlight LineNr ctermfg=DarkGrey   " change color of line numbers
 set wrap                            " wrap lines
 set viminfo=""                      " disable .viminfo file
 set encoding=utf8                   " set encoding to UTF-8
-set lazyredraw                      " redraw screen only when need to
 set showmatch                       " highlight matching brackets
 set ruler                           " show line and column number of the cursor
 set wildmenu                        " enable wild menu
 set wildmode=list:longest,full      " list matches, then longest, then full
+set noshowmode                      " hide -- NORMAL -- etc. below statusline
 
 "===============================================================================
 " => Key bindings
@@ -38,8 +38,6 @@ set smartindent                     " better autoindent
 " => Search settings
 "===============================================================================
 set incsearch                       " search as characters are entered
-set hlsearch                        " highlight search matches
-nnoremap <leader><space> :nohlsearch<CR><CR> " turn off highlighting
 
 "===============================================================================
 " => Miscellaneous settings
@@ -52,14 +50,17 @@ set autoread                        " autoread the file in Vim if it has been ch
 "===============================================================================
 
 let g:currentmode={
-    \ 'n' : 'NORMAL ',
-    \ 'v' : 'VISUAL ',
-    \ 'i' : 'INSERT '
+    \ 'n' : 'NORMAL',
+    \ 'v' : 'VISUAL',
+    \ 'i' : 'INSERT',
+    \ 'c' : 'SEARCH'
     \}
 
 set laststatus=2
 set statusline+=%#StatusLineNC#
-set statusline+=\ %{toupper(g:currentmode[mode()])}
+set statusline+=\
+set statusline+=%{toupper(g:currentmode[mode()])}
+set statusline+=\
 set statusline+=%#SignColumn#
 set statusline+=\ %f
 set statusline+=\ %R
@@ -68,4 +69,4 @@ set statusline+=%=
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %l:%c
-set statusline+=\ 
+set statusline+=\
