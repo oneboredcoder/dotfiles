@@ -3,12 +3,13 @@
 "===============================================================================
 set nocompatible                    " disable vi compatibility
 set number                          " show line numbers
+highlight LineNr ctermfg=DarkGrey   " change color of line numbers
 set wrap                            " wrap lines
+set viminfo=""                      " disable .viminfo file
 set encoding=utf8                   " set encoding to UTF-8
 set lazyredraw                      " redraw screen only when need to
 set showmatch                       " highlight matching brackets
 set ruler                           " show line and column number of the cursor
-set visualbell                      " blink cursor on error, istead of beeping
 set wildmenu                        " enable wild menu
 set wildmode=list:longest,full      " list matches, then longest, then full
 
@@ -49,24 +50,21 @@ set autoread                        " autoread the file in Vim if it has been ch
 "===============================================================================
 " => Statusline settings
 "===============================================================================
-function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
 
-function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-set laststatus=2                    " always show statusline
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
+let g:currentmode={
+    \ 'n' : 'NORMAL ',
+    \ 'v' : 'VISUAL ',
+    \ 'i' : 'INSERT '
+    \}
+
+set laststatus=2
+set statusline+=%#StatusLineNC#
+set statusline+=\ %{toupper(g:currentmode[mode()])}
+set statusline+=%#SignColumn#
 set statusline+=\ %f
-set statusline+=%m
+set statusline+=\ %R
+set statusline+=\ %m
 set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %l:%c
